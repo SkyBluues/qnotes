@@ -1,0 +1,1 @@
+this is notes on my daily study!
