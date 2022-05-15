@@ -67,3 +67,28 @@
 ### 问题描述
 
 描述静态链接与动态链接的区别、优缺点。
+
+## malloc/free/new/delete
+
+### 问题描述
+
+1. malloc/free和new/delete的区别联系
+2. new/delete的原理
+3. 用new申请一个数组，delete不加[]会如何
+4. 用new申请一个数组，free会如何
+
+### 参考
+1. https://blog.csdn.net/nodeathphoenix/article/details/39693865#:~:text=%E8%B0%83%E7%94%A8%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E7%9A%84%E6%AC%A1%E6%95%B0%E6%98%AF%E4%BB%8E%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%E6%8C%87%E9%92%88%E5%89%8D%E9%9D%A2%E7%9A%84%204%20%E4%B8%AA%E5%AD%97%E8%8A%82%E4%B8%AD%E5%8F%96%E5%87%BA%EF%BC%9B%20%E4%BC%A0%E5%85%A5%20operator%20delete,%5B%5D%20%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0%E4%B8%8D%E6%98%AF%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%8C%87%E9%92%88%20pAa%EF%BC%8C%E8%80%8C%E6%98%AF%20pAa%20%E7%9A%84%E5%80%BC%E5%87%8F%204%E3%80%82%20%E4%B8%8A%E8%BF%B0%E5%9B%BE%E7%89%87%E4%B8%AD%E7%BA%A2%E9%A2%9C%E8%89%B2%E7%9A%84%E6%95%B0%E5%AD%973%E5%8D%B3%E5%AD%98%E5%82%A8%E5%9C%A8%E5%9B%9B%E4%B8%AA%E5%AD%97%E8%8A%82%E4%B8%AD%E7%9A%84%E6%95%B0%E7%BB%84%E9%95%BF%E5%BA%A6%E3%80%82
+2. https://www.cnblogs.com/ywliao/articles/8116622.html
+
+## 孤儿进程、僵尸进程
+
+### 问题描述
+
+什么是孤儿进程？什么是僵尸进程？
+
+## python多线程
+
+### 问题描述
+
+python多线程为什么慢？

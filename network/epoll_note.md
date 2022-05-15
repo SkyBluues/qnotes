@@ -114,7 +114,7 @@ int main(void)
     fifo_fd2 = open("./fifo2", O_RDONLY);
 
     /* 需要有进程以只写的方式打开fifo1、fifo2后才能执行于此  */
-    printf("监测fifo1和fifo2中...\n");  
+    printf("监测fifo1和fifo2中...\n");
 
     /* 创建epoll池 */
     ep_fd = epoll_create1(0);
@@ -129,10 +129,10 @@ int main(void)
     epoll_ctl(ep_fd, EPOLL_CTL_ADD, fifo_fd2, &event);
 
     /* ret_events用于存放被触发的事件 */
-    ret_events = malloc(sizeof(struct epoll_event) * 100);  
+    ret_events = malloc(sizeof(struct epoll_event) * 100);
 
     /* 阻塞等待监测事件触发 */
-    cnt = epoll_wait(ep_fd, ret_events, 100, -1);   
+    cnt = epoll_wait(ep_fd, ret_events, 100, -1);
     printf("cnt = %d\n", cnt);
 
     /* 判断监测事件 */
@@ -186,19 +186,13 @@ int main(void)
     int fd;
     char c;
 
-    fd = open("./fifo2", O_WRONLY); 
+    fd = open("./fifo2", O_WRONLY);
     printf("w2: pls input char: \n");
     scanf("%c", &c);
 
     write(fd, &c, 1);
 
-    close(fd);  
+    close(fd);
     return 0;
 }
 ~~~
-
-
-
-
-
-
