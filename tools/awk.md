@@ -27,7 +27,7 @@ pattern可以是如下几种或者什么都没有（全部匹配）：
 
 - /正则表达式/：使用通配符的扩展集。
 - 关系表达式：使用运算符进行操作，可以是字符串或数字的比较测试。
-- 模式匹配表达式：用运算符~（匹配）和~！（不匹配）。
+- 模式匹配表达式：用运算符\~（匹配）和\~！（不匹配）。
 - BEGIN语句块、pattern语句块、END语句块
 
 action就是awk的代码，支持函数、表达式，之间由换行符或分号隔开，并位于大括号内：
@@ -45,9 +45,9 @@ action就是awk的代码，支持函数、表达式，之间由换行符或分�
 awk 'BEGIN{commands} pattern{commands} END{commands}'
 ```
 
-- 首先执行**BEGIN{commands}**内的语句块，注意这只会执行一次，经常用于变量初始化，头行打印一些表头信息，只会执行一次，在通过stdin读入数据前被执行；
-- 从文件内容中读取一行，循环使用**pattern{commands}**处理文件的每一行；
-- 最后执行**END{commands}**，也只执行一次。
+- 首先执行 **BEGIN{commands}** 内的语句块，注意这只会执行一次，经常用于变量初始化，头行打印一些表头信息，只会执行一次，在通过stdin读入数据前被执行；
+- 从文件内容中读取一行，循环使用 **pattern{commands}** 处理文件的每一行；
+- 最后执行 **END{commands}**，也只执行一次。
 
 第一个例子，获得/etc/passwd文件中每一行的第1个和第7个数据，以逗号分隔，并在第一行和最后一行打印一串文字。
 
@@ -68,23 +68,23 @@ blue,/bin/nosh
 
 ### 输出更友好
 
-awk的输出主要靠**print**，**printf**指令，这两个指令的用法和c语言一样。awk处理每行时以列为每个域，列的分隔符默认为空格，但是可以通过**-F**指定，例如**-F;**表示指定分割符为分号，**-F[;,]**表示指定分隔符为分号和逗号。
+awk的输出主要靠**print**，**printf**指令，这两个指令的用法和c语言一样。awk处理每行时以列为每个域，列的分隔符默认为空格，但是可以通过 **-F** 指定，例如 **-F;** 表示指定分割符为分号， **-F[;,]** 表示指定分隔符为分号和逗号。
 
-通过**printf**可以控制输出的格式，它的控制语法和c语言类似：
+通过 **printf** 可以控制输出的格式，它的控制语法和c语言类似：
 
 ```shell
 shell> awk '{printf "%-8s %-8s %-8s %-18s\n",NR, $1,$2,$12}' top.txt
-1        PID      USER     COMMAND           
-2        2304     york     cinnamon          
-3        12489    york     top               
-4        1        root     systemd           
-5        2        root     kthreadd          
-6        4        root     kworker/0:0H      
-7        6        root     ksoftirqd/0       
-8        7        root     rcu_sched         
-9        34       root     khungtaskd        
-10       35       root     oom_reaper        
-11       36       root     writeback         
+1        PID      USER     COMMAND
+2        2304     york     cinnamon
+3        12489    york     top
+4        1        root     systemd
+5        2        root     kthreadd
+6        4        root     kworker/0:0H
+7        6        root     ksoftirqd/0
+8        7        root     rcu_sched
+9        34       root     khungtaskd
+10       35       root     oom_reaper
+11       36       root     writeback
 12       37       root     kcompactd0
 ```
 
@@ -119,18 +119,18 @@ awk内置了一些变量：
 
 ```js
 shell> awk 'BEGIN {sum=0} {printf "%-8s %-8s %-18s\n", $1, $9, $11; sum+=$9} END {print "cpu sum:"sum}' top.txt
-PID      %CPU     TIME+             
-2304     6.2      4:56.97           
-12489    6.2      0:00.02           
-1        0.0      0:04.35           
-2        0.0      0:00.05           
-4        0.0      0:00.00           
-6        0.0      0:00.06           
-7        0.0      0:14.82           
-34       0.0      0:00.04           
-35       0.0      0:00.00           
-36       0.0      0:00.00           
-37       0.0      0:00.00           
+PID      %CPU     TIME+
+2304     6.2      4:56.97
+12489    6.2      0:00.02
+1        0.0      0:04.35
+2        0.0      0:00.05
+4        0.0      0:00.00
+6        0.0      0:00.06
+7        0.0      0:14.82
+34       0.0      0:00.04
+35       0.0      0:00.00
+36       0.0      0:00.00
+37       0.0      0:00.00
 cpu sum:12.4
 ```
 
@@ -148,9 +148,9 @@ cpu sum:12.4
 去掉第一行，并且只输出cpu消耗大于0的行：
 
 ```js
-shell> awk 'NR>1 && $9>0 {printf "%-8s %-8s %-18s\n",$1,$9,$12}' top.txt 
-2304     6.2      cinnamon          
-12489    6.2      top 
+shell> awk 'NR>1 && $9>0 {printf "%-8s %-8s %-18s\n",$1,$9,$12}' top.txt
+2304     6.2      cinnamon
+12489    6.2      top
 ```
 
 首先按照上面所介绍的 awk 执行流程来介绍，单引号里面的 *模式+命令* 在每读到一行时就会执行，判断条件也是如此 `NR>1 && $9>0` 这种写法和c语言没有两样，只是少了判断 `if` 而已，每读到一行时都执行这个判断条件来确定是否过滤；下面转换成高级语言的代码。
@@ -166,10 +166,10 @@ for l in lines {
 保留表头，只输出特定用户名的进程：
 
 ```js
-awk 'NR==1 || /york/ {printf "%-8s %-8s %-8s %-18s\n",$1,$2,$9,$12}' top.txt 
-PID      USER     %CPU     COMMAND           
-2304     york     6.2      cinnamon          
-12489    york     6.2      top               
+awk 'NR==1 || /york/ {printf "%-8s %-8s %-8s %-18s\n",$1,$2,$9,$12}' top.txt
+PID      USER     %CPU     COMMAND
+2304     york     6.2      cinnamon
+12489    york     6.2      top
 ```
 
 上面 *pattern* 出现了一个新语法 `/york/` ,这个就是正则匹配，面对一些字符串匹配来进行过滤，通过运算符显的很无力，这在处理大量log时尤为突出，awk 也想到这点，支持正则匹配来精准筛选；正则过滤有好几种运用方法，但主要格式都是 **在双斜杠内写上你的正则表达式**；例如上面的例子就是 **该行只要出现 ‘york’ 字符即可满足过滤条件**
@@ -179,25 +179,25 @@ PID      USER     %CPU     COMMAND
 上面例子表述的是 **该行只要出现** 即可匹配到，万一不是 *USER* 字段也有 ‘york’ 字符就会出现错误；
 
 ```js
-shell> awk 'NR==1 || $2~/york/ {printf "%-8s %-8s %-8s %-18s\n",$1,$2,$9,$12}' top.txt 
-PID      USER     %CPU     COMMAND           
-2304     york     6.2      cinnamon          
-12489    york     6.2      top 
+shell> awk 'NR==1 || $2~/york/ {printf "%-8s %-8s %-8s %-18s\n",$1,$2,$9,$12}' top.txt
+PID      USER     %CPU     COMMAND
+2304     york     6.2      cinnamon
+12489    york     6.2      top
 ```
 
 上面引入了 `~` 运算符，该运算符和 `!~` 成对立关系，类似 `=`和`！=`的关系，前者表示匹配到的输出，后者表示匹配到的过滤。假设过滤 ‘york’ 的输出，可以这样写：
 
 ```js
-shell> awk 'NR==1 || $2!~/york/ {printf "%-8s %-8s %-8s %-18s\n",$1,$2,$9,$12}' top.txt 
-PID      USER     %CPU     COMMAND           
-1        root     0.0      systemd           
-2        root     0.0      kthreadd          
-4        root     0.0      kworker/0:0H      
-6        root     0.0      ksoftirqd/0       
-7        root     0.0      rcu_sched         
-34       root     0.0      khungtaskd        
-35       root     0.0      oom_reaper        
-36       root     0.0      writeback         
+shell> awk 'NR==1 || $2!~/york/ {printf "%-8s %-8s %-8s %-18s\n",$1,$2,$9,$12}' top.txt
+PID      USER     %CPU     COMMAND
+1        root     0.0      systemd
+2        root     0.0      kthreadd
+4        root     0.0      kworker/0:0H
+6        root     0.0      ksoftirqd/0
+7        root     0.0      rcu_sched
+34       root     0.0      khungtaskd
+35       root     0.0      oom_reaper
+36       root     0.0      writeback
 37       root     0.0      kcompactd0
 ```
 
@@ -223,8 +223,8 @@ awk 'NR==1 || $12~/^k/ {printf "%-8s %-8s %-8s %-18s\n",$1,$2,$9,$12}' top.txt
 
 ```js
 awk '{if($9>0){printf "%-8s %-8s %-8s %-18s\n",$1,$2,$9,$12}}' top.txt
-2304     york     6.2      cinnamon          
-12489    york     6.2      top    
+2304     york     6.2      cinnamon
+12489    york     6.2      top
 ```
 
 条条大路通罗马不是吗？这个例子就是流程控制的一个简单运用，利用到的是awk的流程控制，下面是流程控制的语法结构，了解下：
@@ -255,12 +255,12 @@ if (expression) {
 
 ```js
 awk 'BEGIN {sum=0} {if($9>0){printf "%-8s %-8s %-8s %-18s\n",$1,$2,$9,$12; sum+=$9}} END {printf "cpu total usaged: %s\n", sum}' top.txt
-2304     york     6.2      cinnamon          
-12489    york     6.2      top               
+2304     york     6.2      cinnamon
+12489    york     6.2      top
 cpu total usaged: 12.4
 ```
 
-####  统计计算，输出各个USER的进程数
+#### 统计计算，输出各个USER的进程数
 
 ```js
 shell> awk 'NR!=1{a[$2]++;} END {for (i in a) print i ", " a[i];}' top.txt
@@ -289,11 +289,11 @@ do
 
 上面看到了数组的基本使用，其实 awk 给数组赋予了很多功能，和很多高级脚本语言一样，提供了相关的函数获取长度，排序等，另外存储是 *key-value* 结构，能像map一样判断key是否存在。
 
-*获取长度 length* 
+*获取长度 length*
 
 ```js
 shell> awk 'BEGIN{info="it is a test";lens=split(info,tA," ");print length(tA),lens;}'
-4 4 
+4 4
 ```
 
 > 上面 split 函数用于字符串分割，和c语言的又是一毛一样
@@ -305,7 +305,7 @@ shell> awk 'BEGIN{info="it is a test";split(info,tA," ");for(k in tA){print k,tA
 4 test
 1 it
 2 is
-3 a 
+3 a
 ```
 
 > 由于是 *key-value* 的存储结构，所以使用这样的for循环输出结果是无序的，
@@ -335,13 +335,13 @@ b b1
 *删除 deletekey*
 
 ```js
-shell> awk 'BEGIN{tB["a"]="a1";tB["b"]="b1";delete tB["a"];for(k in tB){print k,tB[k];}}'                     
+shell> awk 'BEGIN{tB["a"]="a1";tB["b"]="b1";delete tB["a"];for(k in tB){print k,tB[k];}}'
 b b1
 ```
 
 ### 定制化输出到文件
 
-这里引入怎么将处理后的文本保存下来，awk 提供了重定向的的功能； 
+这里引入怎么将处理后的文本保存下来，awk 提供了重定向的的功能；
 
 将上面例子中cpu大于0的保存到cpu.txt文件：
 
@@ -361,18 +361,18 @@ cpu total usaged: 12.4
 ```js
 shell> awk 'NR>1 {printf "%-8s %-8s %-8s %-18s\n",$1,$2,$9,$12 > $2}' top.txt
 shell> cat york
-2304     york     6.2      cinnamon          
-12489    york     6.2      top  
+2304     york     6.2      cinnamon
+12489    york     6.2      top
 shell> cat root
-1        root     0.0      systemd           
-2        root     0.0      kthreadd          
-4        root     0.0      kworker/0:0H      
-6        root     0.0      ksoftirqd/0       
-7        root     0.0      rcu_sched         
-34       root     0.0      khungtaskd        
-35       root     0.0      oom_reaper        
-36       root     0.0      writeback         
-37       root     0.0      kcompactd0 
+1        root     0.0      systemd
+2        root     0.0      kthreadd
+4        root     0.0      kworker/0:0H
+6        root     0.0      ksoftirqd/0
+7        root     0.0      rcu_sched
+34       root     0.0      khungtaskd
+35       root     0.0      oom_reaper
+36       root     0.0      writeback
+37       root     0.0      kcompactd0
 ```
 
 上面按照 ‘USER’ 简单做了文件拆分，将输出内容拆分到 ‘york’和‘root’ 两个文件中，这个技巧在后面数据归类或者日志归类中使用非常频繁。
@@ -380,7 +380,7 @@ shell> cat root
 根据字符匹配来确定文件拆分 （结合if-else语句）
 
 ```js
-shell> awk 'NR>1 {if($0~/york/){printf "%-8s %-8s %-8s %-18s\n",$1,$2,$9,$12 > "1.txt"}else if($0~/root/){printf "%-8s %-8s %-8s %-18s\n",$1,$2,$9,$12 > "2.txt"}else{printf "%-8s %-8s %-8s %-18s\n",$1,$2,$9,$12 > "3.txt"}}' top.txt 
+shell> awk 'NR>1 {if($0~/york/){printf "%-8s %-8s %-8s %-18s\n",$1,$2,$9,$12 > "1.txt"}else if($0~/root/){printf "%-8s %-8s %-8s %-18s\n",$1,$2,$9,$12 > "2.txt"}else{printf "%-8s %-8s %-8s %-18s\n",$1,$2,$9,$12 > "3.txt"}}' top.txt
 ```
 
 上面将生成3个文件，其中USER=york的在‘1.txt’，USER=root在‘2.txt’，其它在‘3.txt’, 上面的例子就是前面所介绍的一种结合，正则匹配其实也可以用在 *action* 中做流程判断。
