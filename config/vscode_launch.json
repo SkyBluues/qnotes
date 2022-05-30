@@ -1,0 +1,32 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "运行和调试", //运行和调试任务的名称，可自定义
+      "type": "cppdbg", //配置类型，默认即可
+      "request": "launch", //launch模式允许我们打断点进行调试，默认即可
+      "program": "${fileDirname}/hello", //（常用）程序目录，这里相当于在命令行执行"hello"
+      "args": [], //（常用）程序(main函数)的入口参数
+      "stopAtEntry": false, //在入口处暂停，选true相当于在入口处增加断点
+      "cwd": "${workspaceFolder}", //当前的文件目录
+      "environment": [], //添加到程序的环境变量
+      "externalConsole": false, //外部控制台，true在调试时会开启系统控制台窗口，false会使用vscode自带的调试控制台
+      "MIMode": "gdb", //使用gdb进行调试
+      "setupCommands": [ //用来设置gdb的参数，默认即可
+        {
+          "description": "为 gdb 启用整齐打印",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "环境配置测试", //（常用）运行和调试前要执行的task(编译)任务，任务名要和task.json里的"label"对应
+      "miDebuggerPath": "/usr/bin/gdb" //debug调试工具的路径，这里使用gdb所在的路径
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Client",
+      "program": "${workspaceFolder}/client.js"
+    }
+  ]
+}
