@@ -1,0 +1,46 @@
+// some predefined variables
+// ${workspaceFolder} - 当前工作目录(根目录)
+// ${workspaceFolderBasename} - 当前文件的父目录
+// ${file} - 当前打开的文件名(完整路径)
+// ${relativeFile} - 当前根目录到当前打开文件的相对路径(包括文件名)
+// ${relativeFileDirname} - 当前根目录到当前打开文件的相对路径(不包括文件名)
+// ${fileBasename} - 当前打开的文件名(包括扩展名)
+// ${fileBasenameNoExtension} - 当前打开的文件名(不包括扩展名)
+// ${fileDirname} - 当前打开文件的目录
+// ${fileExtname} - 当前打开文件的扩展名
+// ${cwd} - 启动时task工作的目录
+// ${lineNumber} - 当前激活文件所选行
+// ${selectedText} - 当前激活文件中所选择的文本
+// ${execPath} - vscode执行文件所在的目录
+// ${defaultBuildTask} - 默认编译任务(build task)的名字
+// tasks.json
+{
+  // https://code.visualstudio.com/docs/editor/tasks
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build", // 任务的名字叫Build，注意是大小写区分的，等会在launch中调用这个名字
+      "type": "shell", // 任务执行的是shell命令，也可以是
+      "command": "g++", // 命令是g++
+      "args": [
+        "'-Wall'",
+        "'-std=c++17'", //使用c++17标准编译
+        "'${file}'", //当前文件名
+        "-o", //对象名，不进行编译优化
+        "'${fileBasenameNoExtension}.exe'" //当前文件名（去掉扩展名）
+      ],
+      // 所以以上部分，就是在shell中执行（假设文件名为filename.cpp）
+      // g++ filename.cpp -o filename.exe
+      "group": {
+        "kind": "build",
+        "isDefault": true
+        // 任务分组，因为是tasks而不是task，意味着可以连着执行很多任务
+        // 在build组的任务们，可以通过在Command Palette(F1) 输入run build task来运行
+        // 当然，如果任务分组是test，你就可以用run test task来运行
+      },
+      "problemMatcher": [
+        "$gcc" // 使用gcc捕获错误
+      ]
+    }
+  ]
+}
