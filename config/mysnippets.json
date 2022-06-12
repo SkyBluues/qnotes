@@ -167,7 +167,7 @@
     "body": [
       "try",
       "{",
-			" $0",
+      " $0",
       "}",
       "catch (const std::exception&)",
       "{",
@@ -196,14 +196,14 @@
   "#inc": {
     "prefix": "#inc",
     "body": [
-      "#include \"$1\""
+      "#include \"$1"
     ],
     "description": "Code snippet for #include \" \""
   },
   "#inc<": {
     "prefix": "#inc<",
     "body": [
-      "#include <$1>"
+      "#include <$1"
     ],
     "description": "Code snippet for #include \" \""
   },
@@ -224,16 +224,16 @@
     ],
     "description": "Code snippet for main function"
   },
-  "header guard":{
-    "prefix":"guard",
-    "body":[
-      "#ifndef ${1:SYMBOL}",
-      "#define $1",
+  "header guard": {
+    "prefix": "guard",
+    "body": [
+      "#ifndef ${WORKSPACE_NAME/(.*)/${1:/upcase}/}_${RELATIVE_FILEPATH/([^\\.\\\\]*)([\\.\\\\])*/${1:/upcase}${2:+_}/g}_",
+      "#define ${WORKSPACE_NAME/(.*)/${1:/upcase}/}_${RELATIVE_FILEPATH/([^\\.\\\\]*)([\\.\\\\])*/${1:/upcase}${2:+_}/g}_",
       "",
       "$0",
       "",
-      "#endif // $1"
+      "#endif // ${WORKSPACE_NAME/(.*)/${1:/upcase}/}_${RELATIVE_FILEPATH/([^\\.\\\\]*)([\\.\\\\])*/${1:/upcase}${2:+_}/g}_"
     ],
-    "description":"Code snippet for header guard"
+    "description": "Code snippet for header guard"
   }
 }
